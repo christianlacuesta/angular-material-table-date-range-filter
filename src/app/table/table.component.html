@@ -1,0 +1,87 @@
+<div>
+    <form [formGroup]="form" (submit)="applyDateFilter()">
+    <mat-form-field>
+        <input 
+        matInput 
+        placeholder="Date From" 
+        [matDatepicker]="picker1"
+        formControlName="fromDate"
+        required
+        (click)="picker1.open()"
+        >
+        <mat-datepicker-toggle 
+        matSuffix [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker 
+        #picker1></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+        <input 
+        matInput 
+        placeholder="toDate" 
+        [matDatepicker]="picker2"
+        formControlName="toDate"
+        required
+        (click)="picker2.open()"
+        >
+        <mat-datepicker-toggle 
+        matSuffix [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker 
+        #picker2></mat-datepicker>
+    </mat-form-field>
+    <button 
+    class="button-form" 
+    mat-raised-button color="accent" 
+    (click)="applyDateFilter()"
+    [disabled]="form.invalid">Submit</button>
+    <button mat-raised-button color="accent" type="button" [disabled]="form.invalid">Clear</button>
+    </form>
+    <mat-form-field>
+        <input matInput type="text" #filter (keyup)="doFilter(filter.value)" placeholder="Filter">
+    </mat-form-field>
+</div>
+<mat-table 
+[dataSource]="dataSource" matSort  
+matSortActive="date"
+matSortDirection="desc"
+>
+
+<ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef  mat-sort-header>Id</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.id }}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef  mat-sort-header>Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.name }}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="description" >
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.description }}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="email" >
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="phone" >
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Phone</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.phone }}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef mat-sort-header matSortStart="desc">Date</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.date |  date: 'dd/MM/yyyy'}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="status" >
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.status }}</mat-cell>
+</ng-container>
+
+<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
