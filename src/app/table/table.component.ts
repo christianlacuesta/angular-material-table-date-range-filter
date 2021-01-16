@@ -20,14 +20,17 @@ export class TableComponent implements OnInit, AfterViewInit {
     'date',
     'status'
   ];
+
   form = new FormGroup({
     fromDate: new FormControl(null, { validators: [Validators.required]}),
     toDate: new FormControl(null, { validators: [Validators.required]})
   });
+
   dataSource = new MatTableDataSource<Company>();
+
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private tableService: TableService) { }
+  constructor(private tableService: TableService) {}
 
   ngOnInit(): void {
     this.dataSource.data = this.tableService.getCompanies();
@@ -39,10 +42,8 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   applyDateFilter() {
     console.log(this.form);
-    if (this.form.invalid) {
-      return
-    }
-    //this.dataSource.data = this.dataSource.data.filter(e=>e.date >= this.fromDate && e.date <= this.toDate);
+    this.dataSource.data = this.tableService.getCompanies();
+    this.dataSource.data = this.dataSource.data.filter(e=> e.date >= this.form.value.fromDate && e.date <= this.form.value.toDate);
   }
 
   doFilter(filterValue: string) {
